@@ -1,0 +1,27 @@
+package com.tfg.DyDM.model;
+
+import jakarta.persistence.*;
+
+import java.util.List;
+
+@Entity
+public class Personaje {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int idPersonaje;
+    private String nombre;
+    private int carisma;
+    private int fuerza;
+    private int inteligencia;
+    private int sabiduria;
+    private int constitucion;
+    private int destreza;
+    @Lob
+    private String descripcion;
+    @Lob
+    private byte[] imagenPersonaje;
+    @ManyToMany
+    private List<Clase> clases;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Objeto> objetos;
+}
