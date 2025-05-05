@@ -1,5 +1,6 @@
 package com.tfg.DyDM.controller;
 
+import com.tfg.DyDM.DTO.AuthRequest;
 import com.tfg.DyDM.service.UsuarioService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/usuarios")
+@RequestMapping("/user")
 public class UsuarioController {
 
     @Autowired
@@ -18,9 +19,9 @@ public class UsuarioController {
         this.usuarioService = usuarioService;
     }
 
-    @GetMapping("/existe")
-    public boolean existeNombreUsuario(@RequestParam String nombreUsuario) {
-        return usuarioService.existeNombreUsuario(nombreUsuario);
+    @PostMapping("/login")
+    public boolean login(@RequestParam AuthRequest formulario) {
+        return usuarioService.login(formulario);
     }
 
 }

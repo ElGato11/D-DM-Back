@@ -4,7 +4,10 @@ import com.tfg.DyDM.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface UsuarioRepository extends JpaRepository<Usuario,String> {
-    boolean existeUsuario(String nombre);
+
+    public Optional<Usuario> findByName(String nombreUsuario);
 }
