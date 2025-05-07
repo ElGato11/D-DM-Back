@@ -1,4 +1,4 @@
-package com.tfg.DyDM.DTO;
+package com.tfg.DyDM.jwt;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthRequest {
-    private String username;
-    private String password;
-
+public class LoginRequest {
+    String username;
+    String password;
 }

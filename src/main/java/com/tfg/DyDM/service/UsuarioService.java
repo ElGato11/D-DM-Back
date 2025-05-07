@@ -1,6 +1,6 @@
 package com.tfg.DyDM.service;
 
-import com.tfg.DyDM.DTO.AuthRequest;
+import com.tfg.DyDM.jwt.AuthRequest;
 import com.tfg.DyDM.model.Usuario;
 import com.tfg.DyDM.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +20,7 @@ public class UsuarioService {
         if(clave.equals(formulario.getPassword())){
             String token = generarToken();
         }
+        return false; //esto me lo he inventado, no lo dejes asi
     }
 
     private String generarToken() {
