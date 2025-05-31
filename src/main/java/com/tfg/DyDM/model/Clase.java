@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 
 import java.util.List;
 
+@Entity
 public class Clase {
     @Id
     private String nombreClase;
