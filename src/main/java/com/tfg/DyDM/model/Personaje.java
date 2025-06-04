@@ -23,5 +23,6 @@ public class Personaje {
     @ManyToMany
     private List<Clase> clases;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "personaje_id") // ← Esto crea la FK en la tabla Objeto
     private List<Objeto> objetos;
 }

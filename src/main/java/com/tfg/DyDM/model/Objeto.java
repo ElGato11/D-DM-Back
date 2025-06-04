@@ -4,13 +4,13 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+
+import java.io.Serializable;
 
 @Entity
-@Getter
-public class Objeto {
+@Data
+public class Objeto{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;

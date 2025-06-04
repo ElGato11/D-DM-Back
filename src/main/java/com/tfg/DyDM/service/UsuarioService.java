@@ -15,7 +15,7 @@ public class UsuarioService {
     private UsuarioRepository usuarioRepository;
 
     public boolean login(AuthRequest formulario) {
-        Optional<Usuario> usuario = usuarioRepository.findByName(formulario.getUsername());
+        Optional<Usuario> usuario = usuarioRepository.findByNombre(formulario.getUsername());
         String clave = usuario.map(Usuario::getClave).orElse("");
         if(clave.equals(formulario.getPassword())){
             String token = generarToken();

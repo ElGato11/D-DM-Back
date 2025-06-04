@@ -43,7 +43,7 @@ public class AuthConf {
 
     @Bean
     public UserDetailsService userDetailService() {
-        return username -> userRepository.findByNameUserDetails(username)
+        return username -> userRepository.findByNombre(username)
                 .orElseThrow(()-> new UsernameNotFoundException("User not found"));
     }
 }

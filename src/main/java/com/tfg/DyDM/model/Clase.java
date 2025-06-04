@@ -14,5 +14,6 @@ public class Clase {
     @ManyToMany
     private List<Conjuro> conjuros;
     @ClausulaEquipo
+    @OneToMany
     private List<Objeto> competencias;
 }
