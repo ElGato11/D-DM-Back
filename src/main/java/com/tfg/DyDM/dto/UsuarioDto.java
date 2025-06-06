@@ -1,16 +1,14 @@
-package com.tfg.DyDM.jwt;
+package com.tfg.DyDM.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthRequest {
+public class UsuarioDto {
     private String nombre;
     private String clave;
-
+    private String rol;
 }

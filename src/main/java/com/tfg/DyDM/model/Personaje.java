@@ -1,14 +1,17 @@
 package com.tfg.DyDM.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.List;
 
 @Entity
+@Data
 public class Personaje {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int idPersonaje;
+    @Column(unique = true)
     private String nombre;
     private int carisma;
     private int fuerza;

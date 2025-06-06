@@ -1,9 +1,6 @@
 package com.tfg.DyDM.model;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,6 +19,9 @@ import java.util.List;
 @Builder
 public class Usuario implements UserDetails {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String nombre;
     private String clave;
     @OneToMany(cascade = CascadeType.ALL)
@@ -35,12 +35,12 @@ public class Usuario implements UserDetails {
 
     @Override
     public String getPassword() {
-        return this.nombre;
+        return this.clave;
     }
 
     @Override
     public String getUsername() {
-        return this.clave;
+        return this.nombre;
     }
 
     @Override

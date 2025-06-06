@@ -1,10 +1,12 @@
 package com.tfg.DyDM.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.List;
 
 @Entity
+@Data
 public class Ventaja {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

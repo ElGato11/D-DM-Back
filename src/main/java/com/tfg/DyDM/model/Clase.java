@@ -2,12 +2,17 @@ package com.tfg.DyDM.model;
 
 import com.tfg.DyDM.anotaciones.ClausulaEquipo;
 import jakarta.persistence.*;
+import lombok.Data;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 
 @Entity
+@Data
 public class Clase {
     @Id
+    private Long idClase;
+    @Column(unique = true)
     private String nombreClase;
     @ManyToMany
     private List<Ventaja> ventajas;

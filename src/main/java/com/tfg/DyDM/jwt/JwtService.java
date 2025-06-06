@@ -1,5 +1,6 @@
 package com.tfg.DyDM.jwt;
 
+import com.tfg.DyDM.model.Usuario;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -19,13 +20,16 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    private final String SECRET_KEY= Base64.getEncoder().encodeToString("naranjito".getBytes());
+    private final String SECRET_KEY= Base64.getEncoder().encodeToString("naranjito-es-un-jwt-secreto-seguro-2025!".getBytes());
 
     public String getToken(UserDetails user) {
-        return getToken(new HashMap<>(), user);
+        String rol = user instanceof Usuario usuario ? usuario.getRol() : "INVITADO";
+
+        return getToken(Map.of("rol", rol), user);
     }
 
     public String getToken(Map<String,Object> extraClaims, UserDetails user) {
+
         String token =  Jwts
                 .builder()
                 .setClaims(extraClaims)
