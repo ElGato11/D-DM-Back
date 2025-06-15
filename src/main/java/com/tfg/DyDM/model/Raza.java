@@ -10,6 +10,7 @@ import java.util.List;
 @Data
 public class Raza {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idRaza;
     @Column(unique = true)
     private String nombre;

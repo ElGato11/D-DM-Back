@@ -39,10 +39,9 @@ public class PublicController {
 
             UsuarioDto admin = new UsuarioDto();
             admin.setNombre("admin");
-            admin.setClave("1234"); // la encripta el servicio
-            admin.setRol("ADMIN");
+            admin.setClave("1234");
 
-            usuarioService.createUsuario(admin);
+            usuarioService.createUsuarioAdmin(admin);
             return ResponseEntity.ok("Usuario admin creado correctamente.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al crear admin.");

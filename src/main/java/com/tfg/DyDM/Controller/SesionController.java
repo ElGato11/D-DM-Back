@@ -24,4 +24,5 @@ public class SesionController {
         List<Personaje> personajes = usuarioService.getMisPersonajes();
         return ResponseEntity.ok(personajes);
     }
+
 }

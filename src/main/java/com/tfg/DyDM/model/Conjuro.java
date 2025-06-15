@@ -9,14 +9,12 @@ import java.util.List;
 @Data
 public class Conjuro {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idConjuro;
     @Column(unique = true)
-    private int nombreConjuro;
+    private String nombreConjuro;
     private int nivel;
     @Lob
     private String efecto;
-    @ManyToMany(mappedBy = "conjuros")
-    private List<Clase> clases;
     private String escuela;
-    //queda pendiente filtro por tipo
 }

@@ -8,6 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface ConjuroRepository extends JpaRepository<Conjuro, Long> {
-    Optional<Conjuro> findByNombreConjuro(int nombreConjuro);
-    boolean existsByNombreConjuro(int nombreConjuro);
+    Optional<Conjuro> findByNombreConjuro(String nombreConjuro);
+    boolean existsByNombreConjuro(String nombreConjuro);
 }

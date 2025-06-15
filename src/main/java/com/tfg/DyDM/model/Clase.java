@@ -11,6 +11,7 @@ import java.util.List;
 @Data
 public class Clase {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idClase;
     @Column(unique = true)
     private String nombreClase;
