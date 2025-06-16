@@ -2,7 +2,7 @@ package com.tfg.DyDM.Controller;
 
 
 import com.tfg.DyDM.dto.UsuarioDto;
-import com.tfg.DyDM.model.*;
+import com.tfg.DyDM.entity.*;
 import com.tfg.DyDM.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +27,8 @@ public class PublicController {
     private ObjetoService objetoService;
     @Autowired
     private RazaService razaService;
+    @Autowired
+    private VentajaService ventajaService;
 
     //USUARIO
     @PostMapping("/usuario/admin")
@@ -102,4 +104,15 @@ public class PublicController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    //VENTAJA
+    @GetMapping("/ventaja")
+    public List<Ventaja> getAllVentajas() {
+        return ventajaService.findAll();
+    }
+    @GetMapping("/ventaja/buscar/{id}")
+    public ResponseEntity<Ventaja> getVentajaById(@PathVariable int id) {
+        return ventajaService.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 }

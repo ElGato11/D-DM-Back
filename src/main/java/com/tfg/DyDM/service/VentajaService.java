@@ -1,6 +1,6 @@
 package com.tfg.DyDM.service;
 
-import com.tfg.DyDM.model.Ventaja;
+import com.tfg.DyDM.entity.Ventaja;
 import com.tfg.DyDM.repository.VentajaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

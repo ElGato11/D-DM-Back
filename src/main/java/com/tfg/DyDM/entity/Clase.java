@@ -1,9 +1,7 @@
-package com.tfg.DyDM.model;
+package com.tfg.DyDM.entity;
 
-import com.tfg.DyDM.anotaciones.ClausulaEquipo;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.context.annotation.Configuration;
 
 import java.util.List;
 
@@ -19,7 +17,9 @@ public class Clase {
     private List<Ventaja> ventajas;
     @ManyToMany
     private List<Conjuro> conjuros;
-    @ClausulaEquipo
     @OneToMany
     private List<Objeto> competencias;
+    @Lob
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] imagenClase;
 }

@@ -1,8 +1,7 @@
 package com.tfg.DyDM.repository;
 
-import com.tfg.DyDM.model.Usuario;
+import com.tfg.DyDM.entity.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;

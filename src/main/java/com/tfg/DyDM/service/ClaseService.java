@@ -1,7 +1,7 @@
 package com.tfg.DyDM.service;
 
 
-import com.tfg.DyDM.model.Clase;
+import com.tfg.DyDM.entity.Clase;
 import com.tfg.DyDM.repository.ClaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

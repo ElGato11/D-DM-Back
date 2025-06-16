@@ -1,5 +1,5 @@
 package com.tfg.DyDM.anotaciones;
-import com.tfg.DyDM.model.Objeto;
+import com.tfg.DyDM.entity.Objeto;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

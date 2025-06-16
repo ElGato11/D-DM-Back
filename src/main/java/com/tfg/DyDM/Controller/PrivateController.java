@@ -1,14 +1,17 @@
 package com.tfg.DyDM.Controller;
 
 import com.tfg.DyDM.dto.UsuarioDto;
-import com.tfg.DyDM.model.*;
+import com.tfg.DyDM.entity.*;
 import com.tfg.DyDM.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -33,6 +36,12 @@ public class PrivateController {
     private VentajaService ventajaService;
 
     //USUARIOS
+    @PostMapping("/usuario/cambiar-clave/{id}")
+    public ResponseEntity<Void> cambiarClave(@PathVariable Long id, @RequestBody String nuevaClave) {
+        usuarioService.cambiarClave(id, nuevaClave);
+        return ResponseEntity.ok().build();
+    }
+
     @PostMapping("/usuario/crear/admin")
     public ResponseEntity<Usuario> crearUsuario(@RequestBody UsuarioDto usuario) {
         Usuario creado = usuarioService.createUsuarioAdmin(usuario);
@@ -63,16 +72,33 @@ public class PrivateController {
 
     //CLASES
     @PostMapping("/clase/crear")
-    public ResponseEntity<Clase> createClase(@RequestBody Clase clase) {
+    public ResponseEntity<Clase> createClase(
+            @RequestPart("clase") Clase clase,
+            @RequestPart(value = "imagen", required = false) MultipartFile imagen
+    ) {
+        if (imagen != null && !imagen.isEmpty()) {
+            try {
+                clase.setImagenClase(imagen.getBytes());
+            } catch (IOException e) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
+        }
         Clase nuevaClase = claseService.createClase(clase);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevaClase);
     }
 
-    @PostMapping("/clase/actualizar/{id}")
-    public ResponseEntity<Clase> updateClase(@PathVariable Long id, @RequestBody Clase claseDetails) {
+    @PostMapping(value = "/clase/actualizar/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Clase> updateClase(@PathVariable Long id,
+                                             @RequestPart("clase") Clase claseDetails,
+                                             @RequestPart(value = "imagen", required = false) MultipartFile imagen) {
         try {
+            if (imagen != null && !imagen.isEmpty()) {
+                claseDetails.setImagenClase(imagen.getBytes());
+            }
             Clase updatedClase = claseService.updateClase(id, claseDetails);
             return ResponseEntity.ok(updatedClase);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }
@@ -150,62 +176,40 @@ public class PrivateController {
         }
     }
 
-    //PERSONAJE
-    @GetMapping("/personaje")
-    public List<Personaje> getAllPersonajes() {
-        return personajeService.findAll();
-    }
-
-    @PostMapping("/personaje/crear")
-    public ResponseEntity<Personaje> createPersonaje(@RequestBody Personaje personaje) {
-        try {
-            Personaje nuevo = personajeService.save(personaje);
-            return ResponseEntity.status(HttpStatus.CREATED).body(nuevo);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
-        }
-    }
-
-    @PostMapping("/personaje/actualizar/{id}")
-    public ResponseEntity<Personaje> updatePersonaje(@PathVariable int id, @RequestBody Personaje personaje) {
-        try {
-            Personaje actualizado = personajeService.update(id, personaje);
-            return ResponseEntity.ok(actualizado);
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    @PostMapping("/personaje/borrar/{id}")
-    public ResponseEntity<Void> deletePersonaje(@PathVariable int id) {
-        try {
-            personajeService.delete(id);
-            return ResponseEntity.noContent().build();
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
     //RAZA
-    @PostMapping("/raza/crear")
-    public ResponseEntity<Raza> createRaza(@RequestBody Raza raza) {
+    @PostMapping(value = "/raza/crear", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Raza> createRaza(
+            @RequestPart("raza") Raza raza,
+            @RequestPart(value = "imagen", required = false) MultipartFile imagen) {
         try {
+            if (imagen != null && !imagen.isEmpty()) {
+                raza.setImagenRaza(imagen.getBytes());
+            }
             Raza nuevo = razaService.save(raza);
             return ResponseEntity.status(HttpStatus.CREATED).body(nuevo);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
-    @PostMapping("/raza/actualizar/{id}")
-    public ResponseEntity<Raza> updateRaza(@PathVariable Long id, @RequestBody Raza raza) {
+
+    @PostMapping(value = "/raza/actualizar/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Raza> updateRaza(
+            @PathVariable Long id,
+            @RequestPart("raza") Raza raza,
+            @RequestPart(value = "imagen", required = false) MultipartFile imagen) {
         try {
+            if (imagen != null && !imagen.isEmpty()) {
+                raza.setImagenRaza(imagen.getBytes());
+            }
             Raza actualizado = razaService.update(id, raza);
             return ResponseEntity.ok(actualizado);
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+
 
     @PostMapping("/raza/borrar/{id}")
     public ResponseEntity<Void> deleteRaza(@PathVariable Long id) {
@@ -218,17 +222,6 @@ public class PrivateController {
     }
 
     //VENTAJAS
-    @GetMapping("/ventaja")
-    public List<Ventaja> getAllVentajas() {
-        return ventajaService.findAll();
-    }
-    @GetMapping("/ventaja/buscar/{id}")
-    public ResponseEntity<Ventaja> getVentajaById(@PathVariable int id) {
-        return ventajaService.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
-
     @PostMapping("/ventaja/crear")
     public ResponseEntity<Ventaja> createVentaja(@RequestBody Ventaja ventaja) {
         try {

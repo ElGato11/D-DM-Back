@@ -1,9 +1,8 @@
 package com.tfg.DyDM.service;
 
 import com.tfg.DyDM.dto.UsuarioDto;
-import com.tfg.DyDM.jwt.AuthRequest;
-import com.tfg.DyDM.model.Personaje;
-import com.tfg.DyDM.model.Usuario;
+import com.tfg.DyDM.entity.Personaje;
+import com.tfg.DyDM.entity.Usuario;
 import com.tfg.DyDM.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,7 +11,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UsuarioService {
@@ -45,6 +43,11 @@ public class UsuarioService {
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + id));
     }
 
+    public Usuario getById(Long id) {
+        return usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con id: " + id));
+    }
+
     public Usuario actualizarUsuario(Long id, UsuarioDto dto) {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + id));
@@ -62,6 +65,16 @@ public class UsuarioService {
         }
         usuarioRepository.deleteById(id);
     }
+
+    public void cambiarClave(Long id, String nuevaClave) {
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        String codificada = passwordEncoder.encode(nuevaClave);
+        usuario.setClave(codificada);
+        usuarioRepository.save(usuario);
+    }
+
 
     public List<Personaje> getMisPersonajes() {
         String username = ((UserDetails) SecurityContextHolder.getContext()

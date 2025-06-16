@@ -1,6 +1,6 @@
 package com.tfg.DyDM.repository;
 
-import com.tfg.DyDM.model.Conjuro;
+import com.tfg.DyDM.entity.Conjuro;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

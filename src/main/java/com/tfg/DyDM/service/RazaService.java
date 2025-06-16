@@ -1,6 +1,6 @@
 package com.tfg.DyDM.service;
 
-import com.tfg.DyDM.model.Raza;
+import com.tfg.DyDM.entity.Raza;
 import com.tfg.DyDM.repository.RazaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,9 +1,7 @@
-package com.tfg.DyDM.model;
+package com.tfg.DyDM.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-
-import java.util.List;
 
 @Entity
 @Data

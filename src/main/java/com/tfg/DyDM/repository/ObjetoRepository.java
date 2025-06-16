@@ -1,6 +1,6 @@
 package com.tfg.DyDM.repository;
 
-import com.tfg.DyDM.model.Objeto;
+import com.tfg.DyDM.entity.Objeto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package com.tfg.DyDM.model;
+package com.tfg.DyDM.entity;
 
 
 import jakarta.persistence.*;
@@ -16,6 +16,9 @@ public class Raza {
     private String nombre;
     @ManyToMany
     private List<Ventaja> ventajas;
+    @Lob
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] imagenRaza;
     private int carismaMod;
     private int fuerzaMod;
     private int inteligenciaMod;
