@@ -1,6 +1,7 @@
 package com.tfg.DyDM.Controller;
 
 
+import com.tfg.DyDM.entity.Usuario;
 import com.tfg.DyDM.jwt.JwtService;
 import com.tfg.DyDM.entity.Personaje;
 import com.tfg.DyDM.service.PersonajeService;
@@ -14,7 +15,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/logged")
@@ -28,6 +31,42 @@ public class SesionController {
      private final PersonajeService personajeService;
      @Autowired
      private JwtService jwtService;
+
+    @PostMapping("/usuario/editar-nombre")
+    public ResponseEntity<?> editarNombre(@RequestBody Map<String, String> body, HttpServletRequest request) {
+        String nuevoNombre = body.get("nombre");
+        if (nuevoNombre == null || nuevoNombre.trim().length() < 3) {
+            return ResponseEntity.badRequest().body("El nombre debe tener al menos 3 caracteres.");
+        }
+
+        Long userId = jwtService.extractUserIdFromRequest(request);
+        Usuario usuario = usuarioService.getById(userId);
+        usuario.setNombre(nuevoNombre.trim());
+        usuarioService.actualizarUsuario(userId, usuarioService.toDto(usuario));
+
+        // Genera un nuevo token con el nuevo nombre
+        String nuevoToken = jwtService.getToken(usuario);
+
+        Map<String, String> respuesta = new HashMap<>();
+        respuesta.put("mensaje", "Nombre actualizado");
+        respuesta.put("token", nuevoToken);
+        return ResponseEntity.ok(respuesta);
+    }
+
+
+    @PostMapping("/usuario/cambiar-clave")
+    public ResponseEntity<?> cambiarClave(@RequestBody String nuevaClave, HttpServletRequest request) {
+        Long userId = jwtService.extractUserIdFromRequest(request);
+
+        if (nuevaClave == null || nuevaClave.length() < 4 || !nuevaClave.matches(".*[a-zA-Z].*") || !nuevaClave.matches(".*[0-9].*")) {
+            return ResponseEntity.badRequest().body("La contraseña debe tener al menos 4 caracteres y contener letras y números.");
+        }
+
+        usuarioService.cambiarClave(userId, nuevaClave);
+        return ResponseEntity.ok(Map.of("mensaje", "Contraseña actualizada"));
+
+    }
+
 
     @PostMapping(value = "/personaje/actualizar/{id}", consumes = "multipart/form-data")
     public ResponseEntity<Personaje> actualizarPersonaje(

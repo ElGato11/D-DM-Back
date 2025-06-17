@@ -14,4 +14,7 @@ public class Sala {
     private Usuario jugador2;
     private Personaje personajeHost;
     private Personaje personajeJugador2;
+    private Integer hpHost;
+    private Integer hpJugador2;
+    private String turnoActual;
 }

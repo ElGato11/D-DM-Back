@@ -34,6 +34,15 @@ public class UsuarioService {
         return usuarioRepository.save(usuario);
     }
 
+    public UsuarioDto toDto(Usuario usuario) {
+        UsuarioDto dto = new UsuarioDto();
+        dto.setNombre(usuario.getNombre());
+        dto.setClave(usuario.getClave());
+        dto.setRol(usuario.getRol());
+        return dto;
+    }
+
+
     public List<Usuario> obtenerTodos() {
         return usuarioRepository.findAll();
     }
@@ -48,16 +57,25 @@ public class UsuarioService {
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado con id: " + id));
     }
 
-    public Usuario actualizarUsuario(Long id, UsuarioDto dto) {
+    public Usuario actualizarUsuario(Long id, UsuarioDto cambios) {
         Usuario usuario = usuarioRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + id));
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        usuario.setNombre(dto.getNombre());
-        usuario.setClave(passwordEncoder.encode(dto.getClave()));
-        usuario.setRol(dto.getRol());
+        if (cambios.getNombre() != null && !cambios.getNombre().trim().isEmpty()) {
+            usuario.setNombre(cambios.getNombre().trim());
+        }
+
+        if (cambios.getClave() != null && !cambios.getClave().trim().isEmpty()) {
+            usuario.setClave(cambios.getClave().trim());
+        }
+
+        if (cambios.getRol() != null && !cambios.getRol().trim().isEmpty()) {
+            usuario.setRol(cambios.getRol().trim());
+        }
 
         return usuarioRepository.save(usuario);
     }
+
 
     public void eliminarUsuario(Long id) {
         if (!usuarioRepository.existsById(id)) {

@@ -15,6 +15,6 @@ public class Objeto{
     private String nombre;
     private String tipo;
     private boolean necesitaCompetencia;
-    private String danyo;   //codifica "numeroDados/D/carasDado"
+    private String danyo;
     private String efecto;
 }
